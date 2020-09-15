@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+//!use the ES6 default promise instead of Mongoose's own
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/users_test', { useNewUrlParser: true });
 mongoose.connection
   .once('open', () => console.log('Good to go!'))
