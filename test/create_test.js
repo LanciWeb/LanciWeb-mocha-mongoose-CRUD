@@ -1,3 +1,18 @@
+const assert = require('assert');
+const { Mongoose } = require('mongoose');
+const User = require('../src/user');
+
+describe('Creating records', () => {
+  it('saves a user', (done) => {
+    const joe = new User({ name: 'Joe' });
+
+    joe.save().then(() => {
+      assert(!joe.isNew); //#isNew
+      done();
+    });
+  });
+});
+
 //# DESCRIBE FUNCTIONS
 /**
  * is the function where you describe the purpose of the following tests
@@ -52,18 +67,3 @@
  * the flag is set to false.
  * We can use this flag to test whether a model instance has been successfully saved
  */
-
-const assert = require('assert');
-const { Mongoose } = require('mongoose');
-const User = require('../src/user');
-
-describe('Creating records', () => {
-  it('saves a user', (done) => {
-    const joe = new User({ name: 'Joe' });
-
-    joe.save().then(() => {
-      assert(!joe.isNew); //#isNew
-      done();
-    });
-  });
-});

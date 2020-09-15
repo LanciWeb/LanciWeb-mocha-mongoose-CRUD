@@ -1,19 +1,42 @@
 const mongoose = require('mongoose');
 //!use the ES6 default promise instead of Mongoose's own
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/users_test', { useNewUrlParser: true });
-mongoose.connection
-  .once('open', () => console.log('Good to go!'))
-  .on('error', (error) => {
-    console.warn('Warning', error);
-  });
 
-//? beforeEach is a Mocha hook; it gets called with done(), to be called when we finish to tell Mocha to proceed
+//? BEFORE //? DONE
+before((done) => {
+  mongoose.connect('mongodb://localhost/users_test', { useNewUrlParser: true });
+  mongoose.connection
+    .once('open', () => {
+      done();
+    })
+    .on('error', (error) => {
+      console.warn('Warning', error);
+    });
+});
+
+//? beforeEach
 beforeEach((done) => {
   //? drop accepts a callback to be executed AFTER the drop
   mongoose.connection.collections.users.drop(() => {
-    //when we are here, we have finished drop.
-    //invoking done, tells Mocha that we are ready to run the next test!
     done();
   });
 });
+
+//#DONE
+/**
+ * is a callback function provided automatically by Mocha.
+ * It is implicitly present as an argument in each Mocha function
+ * so inside the beforeEach hook, for example, we have a first argument of done, that we can call to tell mocha to proceed to next operation
+ *
+ */
+
+//# before Hook
+/**
+ *  before is a Mocha hook, it gets called just once.
+ * It allows us to reference the done function so that we can wait to perform the operation (in this case the connection) and only at the end, in case of success, trigger the done() function and run other tests
+ *  */
+
+//# beforeEach Hook
+/**
+ * beforeEach is a Mocha hook, it gets called before any operation, and it is invoked with a done function that we must call to inform mocha that the current operation is completed.
+ */
