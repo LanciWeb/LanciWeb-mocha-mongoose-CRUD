@@ -40,8 +40,17 @@
 /**
  * is a callback function provided automatically by Mocha.
  * It is implicitly present as an argument in each Mocha function
- * so inside the beforeEach hook, for example, we have a first argument of done
+ * so inside the beforeEach hook, for example, we have a first argument of done, that we can call to tell mocha to proceed to next operation
  *
+ */
+
+//#isNew
+/**
+ * whenever a model is created with mongoose,
+ * mongoose assigns t a flag of isNew === true.
+ * As soon as the model has been saved in the database,
+ * the flag is set to false.
+ * We can use this flag to test whether a model instance has been successfully saved
  */
 
 const assert = require('assert');
@@ -49,8 +58,12 @@ const { Mongoose } = require('mongoose');
 const User = require('../src/user');
 
 describe('Creating records', () => {
-  it('saves a user', () => {
+  it('saves a user', (done) => {
     const joe = new User({ name: 'Joe' });
-    joe.save();
+
+    joe.save().then(() => {
+      assert(!joe.isNew); //#isNew
+      done();
+    });
   });
 });
