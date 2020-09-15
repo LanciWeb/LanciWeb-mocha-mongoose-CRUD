@@ -15,4 +15,11 @@ describe('Reading users', () => {
       done();
     });
   });
+  it('read specific user', (done) => {
+    User.findOne({ _id: joe._id }).then((user) => {
+      console.log(user);
+      assert(user.name === 'Joe');
+      done();
+    });
+  });
 });
