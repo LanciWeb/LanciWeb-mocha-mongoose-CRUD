@@ -28,10 +28,29 @@
  * !if that does not work, add a "test":"mocha" in package.json scripts
  */
 
+//#HOOKS
+/**
+ * Hooks are functions that can be run before, after or in some specific
+ * moments during the tests.
+ * ? beforeEach (test_helper.js)
+ * is runs before each operation
+ */
+
+//#DONE
+/**
+ * is a callback function provided automatically by Mocha.
+ * It is implicitly present as an argument in each Mocha function
+ * so inside the beforeEach hook, for example, we have a first argument of done
+ *
+ */
+
 const assert = require('assert');
+const { Mongoose } = require('mongoose');
+const User = require('../src/user');
 
 describe('Creating records', () => {
   it('saves a user', () => {
-    assert(1 + 1 === 2);
+    const joe = new User({ name: 'Joe' });
+    joe.save();
   });
 });
