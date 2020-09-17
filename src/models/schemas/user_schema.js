@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   },
   likes: Number,
   posts: [PostSchema], //#subdocument!
+  blogPosts: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
 });
 
 UserSchema.virtual('postCount').get(function () {
@@ -45,4 +46,13 @@ module.exports = UserSchema;
  * |UserSchema.virtual('postCount').get(function () {
  * |  return this.posts.length;
  * | });
+ */
+
+//# Associations with refs
+/**
+ * when we want to create some relationship in a SQL fashion we can use the refs. This allows to relate different models (different collections) as opposed to the subdocuments relationships where the schema is inside the same model.
+ *
+ * to do so, we need to pass an object (or an array of object) with the type property of 'Schema.Types.ObjectId' and a ref which represent the name of the model we want to connect to.
+ *
+ * | blogPosts: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
  */
