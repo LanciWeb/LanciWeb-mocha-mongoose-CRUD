@@ -36,6 +36,15 @@ describe('updating users', () => {
   it('model class findByIdAndUpdate', (done) => {
     assertName(User.findByIdAndUpdate(joe._id, { name: 'Mark' }), done);
   });
+
+  it('increment a value by one on each instance of a model', (done) => {
+    User.update({ name: 'Joe' }, { $inc: { postCount: 1 } })
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user.postCount === 1);
+        done();
+      });
+  });
 });
 
 //# model instance 'set' and 'save'
@@ -59,4 +68,16 @@ describe('updating users', () => {
 //# model class findByIdAndUpdate
 /**
  * This updates the instance whose _id matches the id provided as first argument.We need to pass a second argument to specify what properties we want to update. No need to save();
+ */
+
+//#update operators
+/**
+ * when we work with model classes, we can perform some operations directly on the database, giving Mongo some instructions that it will execute directly, thanks to the Update Operators.
+ * This is cool because we don't have to make several fetches and calls to our database.
+ * |https://docs.mongodb.com/manual/reference/operator/update/
+ */
+
+//# INCREMENT ($inc)
+/**
+ * can be used to increment values on the database when used with one of the update functions. It can be used to decrement by providing negative values
  */
