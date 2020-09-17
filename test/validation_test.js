@@ -17,6 +17,15 @@ describe('validtation tests', () => {
     assert(message === 'Name must be longer than 2 characters');
     done();
   });
+
+  it('prevent invalid records from being saved', (done) => {
+    const user = new User({ name: 'Al' });
+    user.save().catch((validationResult) => {
+      const { message } = validationResult.errors.name;
+      assert(message === 'Name must be longer than 2 characters');
+      done();
+    });
+  });
 });
 
 //# validateSync function
