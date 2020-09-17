@@ -37,7 +37,7 @@ describe('updating users', () => {
     assertName(User.findByIdAndUpdate(joe._id, { name: 'Mark' }), done);
   });
 
-  it('increment a value by one on each instance of a model', (done) => {
+  xit('increment a value by one on each instance of a model', (done) => {
     User.update({ name: 'Joe' }, { $inc: { postCount: 1 } })
       .then(() => User.findOne({ name: 'Joe' }))
       .then((user) => {

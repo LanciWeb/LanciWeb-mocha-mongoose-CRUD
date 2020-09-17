@@ -26,7 +26,7 @@ describe('Creating records', () => {
  * They are the actual tests. they take the same arguments as Describe
  * Mocha is going to run them one after another.
  * Inside an it function, we need to make an ASSERTION,
- *
+ * ! xit functions are used to ignore some test functions
  */
 
 //#ASSERTIONS
