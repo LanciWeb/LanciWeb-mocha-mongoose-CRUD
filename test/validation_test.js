@@ -18,6 +18,7 @@ describe('validtation tests', () => {
     done();
   });
 
+  //? we test we are able to catch validation error coming from the attempts of saving invalid records
   it('prevent invalid records from being saved', (done) => {
     const user = new User({ name: 'Al' });
     user.save().catch((validationResult) => {
