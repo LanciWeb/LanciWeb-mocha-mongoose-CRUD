@@ -1,32 +1,18 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const PostSchema = require('./post_schema');
+const assert = require('assert');
+const User = require('../src/models/user');
 
-const UserSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, 'Name is required.'],
-    validate: {
-      validator: (name) => name.length > 2,
-      message: 'Name must be longer than 2 characters',
-    },
-  },
-  posts: [PostSchema], //#subdocument!
+describe('virtual types', () => {
+  it('postCount always return the number of posts', (done) => {
+    const joe = new User({ name: 'Joe', posts: [{ title: 'one post' }] });
+    joe
+      .save()
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user.postCount === 1);
+        done();
+      });
+  });
 });
-
-UserSchema.virtual('postCount').get(function () {
-  return this.posts.length;
-});
-
-module.exports = UserSchema;
-
-//#VALIDATION
-/**
- * we can perform validation in different ways.
- * When we define a property, instead of specifying only the type we could pass an object, where explicitly declare the type and some other properties that could be used by mongo as validation. For example the 'required' flag.
- *
- * as an alternative, we can use a 'validator' property to set a custom function and a message to be displayed in case of validation failure. The function receives the model property as its first argument, then we can operate with it.
- */
 
 //# Virtual Types
 /**
