@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
+const PostSchema = require('./post_schema');
 
 const UserSchema = new Schema({
   name: {
@@ -12,11 +12,10 @@ const UserSchema = new Schema({
     },
   },
   postCount: Number,
+  posts: [PostSchema], //#subdocument!
 });
 
-const User = mongoose.model('user', UserSchema);
-
-module.exports = User;
+module.exports = UserSchema;
 
 //#VALIDATION
 /**

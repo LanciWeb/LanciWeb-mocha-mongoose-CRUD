@@ -1,5 +1,5 @@
 const assert = require('assert');
-const User = require('../src/user');
+const User = require('../src/models/user');
 
 describe('Reading users', () => {
   // We are manually adding this user here because in the main mocha file (test_helper) we are running a

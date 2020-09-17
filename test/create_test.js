@@ -1,6 +1,7 @@
 const assert = require('assert');
-const { Mongoose } = require('mongoose');
-const User = require('../src/user');
+const mongoose = require('mongoose');
+
+const User = require('../src/models/user');
 
 describe('Creating records', () => {
   it('saves a user', (done) => {
