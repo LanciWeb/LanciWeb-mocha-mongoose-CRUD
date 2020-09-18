@@ -24,6 +24,13 @@ describe('Associations tests', () => {
       done()
     );
   });
+
+  it('saves a relation between a user and a blogpost', (done) => {
+    User.findOne({ name: 'Joe' }).then((user) => {
+      console.log(user);
+      done();
+    });
+  });
 });
 
 //#has Many Relationship assignation
