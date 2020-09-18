@@ -19,7 +19,7 @@ describe('middleware', () => {
     Promise.all([joe.save(), blogPost.save()]).then(() => done());
   });
 
-  it.only('when user is deleted also blogPosts are removed', (done) => {
+  it('when user is deleted also blogPosts are removed', (done) => {
     joe
       .remove()
       .then(() => BlogPost.countDocuments())

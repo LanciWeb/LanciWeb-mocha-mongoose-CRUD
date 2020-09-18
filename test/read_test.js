@@ -6,7 +6,12 @@ describe('Reading users', () => {
   let joe;
   beforeEach((done) => {
     joe = new User({ name: 'Joe' });
-    joe.save().then(() => done());
+    jill = new User({ name: 'Jill' });
+    mark = new User({ name: 'Mark' });
+    mike = new User({ name: 'Mike' });
+    Promise.all([joe.save(), jill.save(), mark.save(), mike.save()]).then(() =>
+      done()
+    );
   });
   it('read all users', (done) => {
     User.find({ name: 'Joe' }).then((users) => {
@@ -22,4 +27,25 @@ describe('Reading users', () => {
       done();
     });
   });
+
+  it('can skip and limit - paginate', (done) => {
+    User.find({})
+      .sort({ name: 1 }) //! super important: if we don't sort, we cannot be sure that the order is the same we expect
+      .skip(1)
+      .limit(2)
+      .then((users) => {
+        assert(users.length === 2);
+        const userNames = users.map((u) => u.name);
+        console.log(userNames);
+        assert(userNames.includes('Joe'));
+        assert(userNames.includes('Mark'));
+        done();
+      });
+  });
 });
+
+//# PAGINATION - sort, skip and limit modifiers
+/**
+ * the sort, skip and limit modifiers are very useful for pagination.
+ * By combining their values, we can restrict the results of the query to a window of results.
+ */
