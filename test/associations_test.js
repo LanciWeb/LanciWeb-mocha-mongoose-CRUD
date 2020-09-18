@@ -25,7 +25,8 @@ describe('Associations tests', () => {
     );
   });
 
-  it('saves a relation between a user and a blogpost', (done) => {
+  //? it only makes mocha run ONLY this test
+  it.only('saves a relation between a user and a blogpost', (done) => {
     User.findOne({ name: 'Joe' }).then((user) => {
       console.log(user);
       done();
