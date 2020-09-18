@@ -20,6 +20,15 @@ UserSchema.virtual('postCount').get(function () {
   return this.posts.length;
 });
 
+UserSchema.pre('remove', function (next) {
+  //this = the user instance
+
+  //? we don't want to require it at the top of the file to avoid mutual requiring between user and blog posts
+  const BlogPost = mongoose.model('blogPost');
+
+  BlogPost.remove({ _id: { $in: this.BlogPost } }).then(() => next());
+});
+
 module.exports = UserSchema;
 
 //#VALIDATION
@@ -55,4 +64,41 @@ module.exports = UserSchema;
  * to do so, we need to pass an object (or an array of object) with the type property of 'Schema.Types.ObjectId' and a ref which represent the name of the model we want to connect to.
  *
  * | blogPosts: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
+ */
+
+//# MIDDLEWARES (.pre() - .post())
+/**
+ * Middlewares are mongo functions that can trigger additional code BEFORE or AFTER some event is performed.
+ * They are usually attached to the schema.
+ * The first param is a string representing the event to which we want to attach the middleware.
+ * the second param is a function invoked with a next() function as a first param.
+ * ! the function cannot be arrow because inside we need the 'this' keyword to refer to the model instance
+ * !we must also remember to call the next() function once we finish.
+ */
+
+//# Deleting related instances / $in operator
+/**
+ * Sometimes we want to delete some instances of related models.
+ * For example, we may want to remove all users' posts when a user is deleted.
+ *
+ * We cannot delete the user.blogPost.. that is an array of ids and it would be removed anyway deleting the user.
+ * Instead we must use a pre-hook on the user 'remove' event and delete all posts BEFORE the user is actually deleted.
+ *
+ * To do so, we must
+ * TODO 1. load the blogPost model INSIDE the hook
+ * (as opposed to requiring at the top of the file) because we don't want to create a situation in which the blog post is required every time a user is loaded. Also, we avoid situations in which maybe the user requires a blogPost and a blogPost requires a user.
+ *
+ * TODO 2. use the $in operator
+ * The $in operator is similar to the SQL IN operator: used in a query, we can use it in anarray of value and it will check the presence of a value inside the array:
+ *
+ * TODO 3 call the next() function
+ *
+ * | UserSchema.pre('remove', function (next) {
+ * |   //this = the user instance
+ * |
+ * |   const BlogPost = mongoose.model('blogPost');
+ * |   BlogPost.remove({ _id: { $in: this.BlogPost } })
+ * |      .then(() => next());
+ * | });
+ *
  */
