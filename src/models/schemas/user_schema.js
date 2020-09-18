@@ -26,7 +26,7 @@ UserSchema.pre('remove', function (next) {
   //? we don't want to require it at the top of the file to avoid mutual requiring between user and blog posts
   const BlogPost = mongoose.model('blogPost');
 
-  BlogPost.remove({ _id: { $in: this.BlogPost } }).then(() => next());
+  BlogPost.remove({ _id: { $in: this.blogPosts } }).then(() => next());
 });
 
 module.exports = UserSchema;
@@ -97,8 +97,7 @@ module.exports = UserSchema;
  * |   //this = the user instance
  * |
  * |   const BlogPost = mongoose.model('blogPost');
- * |   BlogPost.remove({ _id: { $in: this.BlogPost } })
- * |      .then(() => next());
+ * |   BlogPost.remove({ _id: { $in: this.blogPosts } }).then(() => next());
  * | });
  *
  */
