@@ -16,7 +16,7 @@ before((done) => {
 
 //? beforeEach
 beforeEach((done) => {
-  const { user, comments, blogposts } = mongoose.connection.collections;
+  const { users, comments, blogposts } = mongoose.connection.collections;
   //? drop accepts a callback to be executed AFTER the drop
   //! we need to nest these callbacks because Mongo CANNOT delete multiple collections at the same time!
   users.drop(() => {
