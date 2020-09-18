@@ -6,4 +6,4 @@ const CommentSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'user' },
 });
 
-module.exports(CommentSchema);
+module.exports = CommentSchema;

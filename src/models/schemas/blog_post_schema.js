@@ -7,4 +7,4 @@ const BlogPostSchema = new Schema({
   comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
 });
 
-module.exports(BlogPostSchema);
+module.exports = BlogPostSchema;
