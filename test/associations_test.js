@@ -14,15 +14,11 @@ describe('Associations tests', () => {
     comment = new Comment({ content: 'Congrats on great post.' });
 
     //#has Many Relationship assignation
-    joe.blogPost.push(blogPost);
+    joe.blogPosts.push(blogPost);
     blogPost.comments.push(comment);
 
     //# has one Relationship assignation
     comment.user = joe;
-
-    joe.save();
-    comment.save();
-    blogPost.save();
 
     Promise.all([joe.save(), comment.save(), blogPost.save()]).then(() =>
       done()
